@@ -29,7 +29,7 @@ I found this to be the goldilocks for my use case, for various reasons:
 #### The memory: 128 GB of DDR4 ECC RAM
 128 GB of RAM will provide enough headroom for virtual machines, containers, services, and future projects.
 
-I chose Error-Correcting Code memory improves reliability by detecting and correcting memory errors before they can affect running workloads, a nice advantage for a server expected to operate continuously and host important services.
+I chose Error-Correcting Code as it memory improves reliability by detecting and correcting memory errors before they can affect running workloads, a nice advantage for a server expected to operate continuously and host important services.
 
 #### The motherboard: ASRock Rack X570D4I-2T
 This is a server-oriented board that builds on some killer enterprise features:
