@@ -60,6 +60,13 @@ Long-term goal would be to expand the system with four 12 TB helium-filled drive
 ## Networking as of now
 At the moment, networking setup is really miserable. Since I do not yet have a wired connection available in my room, the server relies on a cheap USB Wi-Fi adapter I had laying around.
 
-Providing connectivity to hypervisor and virtual machines was really tricky for a reason: while Ethernet supports multiple MAC addresses behind the same interface, my Wi-Fi dongle only exposes a single MAC address to the router. Proxmox will get a static IP on my router (ex. 192.168.x.x), but virtual machines cannot communicate directly with the network in the same way.
+Providing connectivity to hypervisor and virtual machines was really tricky for a reason: while Ethernet supports multiple MAC addresses behind the same interface, my Wi-Fi dongle only exposes a single MAC address to the router. Proxmox will get a static IP on my router (ex. 192.168.x.x), but virtual machines, which live on an internal Proxmox LAN i created (10.10.10.0/24) cannot communicate directly with the network in the same way. To work around this limitation, I configured my Proxmox host as a small NAT router: server rewrites the source address of outgoing packets from the VM's private address (ex. 10.10.10.17) to its own address on the home network (ex. 192.168.1.72). From the router's perspective, all VM traffic appears to originate from the Proxmox host itself, allowing the VMs to reach the internet despite the Wi-Fi limitations.
 
-This setup is intended to be temporary. Future plans include deploying MoCA adapters to establish a proper wired connection to the home network, allowing the server's networking capabilities to be fully utilized.
+This adds complexity all around, and i have not been setting up any Docker/Podman network yet, which would turn this into an ungodly matrioska of NATs. Near future plans include deploying MoCA adapters to establish a proper wired connection to the home network, allowing the server's networking capabilities to be fully utilized.
+
+## Virtualization
+The server runs Proxmox VE as its primary virtualization platform. The host uses Btrfs as its filesystem, allowing me to take advantage of features such as snapshots, checksumming, and flexible storage management.
+
+At the moment, the environment is intentionally simple and consists primarily of an Arch Linux virtual machine. Arch serves as a general-purpose Linux server where I can experiment with system administration, networking, containers, automation, and self-hosted applications while keeping the base system minimal and fully under my control. I will start setting up services or LXC containers once i have a wired connection available.
+
+
